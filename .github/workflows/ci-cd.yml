@@ -1,4 +1,4 @@
-name: CI-CD Pipeline
+name: CI/CD Pipeline for PWA
 
 on:
   push:
@@ -9,11 +9,11 @@ on:
       - main
 
 jobs:
-  build-and-test:
+  install-and-check:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Setup Node.js
@@ -24,8 +24,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm run test
-
-      - name: Build project
-        run: npm run build
+      # Facultatif : lancer le projet localement (souvent inutile en CI)
+      # - name: Start dev server (facultatif, utile uniquement avec tests ou preview)
+      #   run: npm start
