@@ -48,7 +48,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: ouiame/pwa-app:latest
+        tags: wiamee3/pwa-app:latest
 
   deploy:
     needs: build-and-push-docker
