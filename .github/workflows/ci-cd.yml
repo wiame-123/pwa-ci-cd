@@ -57,6 +57,6 @@ jobs:
     steps:
     - name: Deploy application
       run: |
-        ssh user@ton-serveur "docker pull ouiame/pwa-app:latest && docker stop pwa-app || true && docker rm pwa-app || true && docker run -d -p 5000:5000 --name pwa-app ouiame/pwa-app:latest"
+        ssh user@ton-serveur "docker pull wiamee3/pwa-app:latest && docker stop pwa-app || true && docker rm pwa-app || true && docker run -d -p 5000:5000 --name pwa-app wiamee3/pwa-app:latest"
       env:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
