@@ -1,5 +1,4 @@
-name: Build and Push Docker Image
-
+name: Build, Push and Deploy
 on:
   push:
     branches: [ main ]
@@ -27,3 +26,19 @@ jobs:
         context: .
         push: true
         tags: ouiame/pwa-app:latest
+
+    - name: Deploy app on server via SSH
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SSH_HOST: ${{ secrets.SSH_HOST }}
+        SSH_USER: ${{ secrets.SSH_USER }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST << EOF
+          docker pull ouiame/pwa-app:latest
+          docker stop pwa-app || true
+          docker rm pwa-app || true
+          docker run -d -p 5000:5000 --name pwa-app ouiame/pwa-app:latest
+        EOF
