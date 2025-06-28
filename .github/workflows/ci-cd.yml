@@ -51,3 +51,18 @@ jobs:
         context: .
         push: true
         tags: wiamee3/pwa-app:latest
+        deploy:
+  needs: build-and-push-docker
+  runs-on: self-hosted
+
+  steps:
+    - name: Pull image (si besoin)
+      run: docker pull wiamee3/pwa-app:latest
+
+    - name: Stop and remove existing container
+      run: |
+        docker stop pwa-app || true
+        docker rm pwa-app || true
+
+    - name: Run the new container
+      run: docker run -d -p 5000:5000 --name pwa-app wiamee3/pwa-app:latest
