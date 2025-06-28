@@ -55,24 +55,15 @@ jobs:
   deploy:
     needs: build-and-push-docker
     runs-on: self-hosted
-
     steps:
-      - name: Pull image
+      - name: Pull image (si besoin)
         run: docker pull wiamee3/pwa-app:latest
 
       - name: Stop and remove existing container
+        shell: pwsh
         run: |
-          docker stop pwa-app || exit 0
-          docker rm pwa-app || exit 0
+          docker stop pwa-app -ErrorAction SilentlyContinue
+          docker rm pwa-app -ErrorAction SilentlyContinue
 
       - name: Run the new container
         run: docker run -d -p 5000:5000 --name pwa-app wiamee3/pwa-app:latest
-
-      - name: Send Discord notification
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: |
-          curl -H "Content-Type: application/json" \
-          -X POST \
-          -d '{"content": "✅ Déploiement réussi sur le runner local 🚀 !"}' \
-          $DISCORD_WEBHOOK_URL
