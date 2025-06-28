@@ -55,15 +55,18 @@ jobs:
   deploy:
     needs: build-and-push-docker
     runs-on: self-hosted
+
     steps:
-      - name: Pull image (si besoin)
+      - name: Pull image
+        shell: powershell
         run: docker pull wiamee3/pwa-app:latest
 
       - name: Stop and remove existing container
-        shell: pwsh
+        shell: powershell
         run: |
-          docker stop pwa-app -ErrorAction SilentlyContinue
-          docker rm pwa-app -ErrorAction SilentlyContinue
+          try { docker stop pwa-app; Write-Host "Container stopped." } catch { Write-Host "No running container." }
+          try { docker rm pwa-app; Write-Host "Container removed." } catch { Write-Host "Container did not exist." }
 
       - name: Run the new container
+        shell: powershell
         run: docker run -d -p 5000:5000 --name pwa-app wiamee3/pwa-app:latest
