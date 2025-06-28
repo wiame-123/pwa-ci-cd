@@ -62,8 +62,10 @@ jobs:
 
       - name: Stop and remove existing container
         run: |
-          docker stop pwa-app || true
-          docker rm pwa-app || true
+          if (docker ps -q -f name=pwa-app) {
+            docker stop pwa-app
+            docker rm pwa-app
+          }
 
       - name: Run the new container
         run: docker run -d -p 5000:5000 --name pwa-app wiamee3/pwa-app:latest
