@@ -70,3 +70,11 @@ jobs:
       - name: Run the new container
         shell: powershell
         run: docker run -d -p 5000:5000 --name pwa-app wiamee3/pwa-app:latest
+
+    
+      - name: Notify Discord
+        run: |
+          curl -H "Content-Type: application/json" \
+            -X POST \
+            -d "{\"content\": \"✅ Déploiement réussi ! Conteneur Docker lancé sur self-hosted.\"}" \
+            ${{ secrets.DISCORD_WEBHOOK_URL }}
