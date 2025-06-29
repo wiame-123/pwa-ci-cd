@@ -76,5 +76,5 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" \
             -X POST \
-            -d "{\"content\": \"✅ Déploiement réussi ! Conteneur Docker lancé sur self-hosted.\"}" \
+            -d "{\"content\": \"Déploiement réussi ! Conteneur Docker lancé sur self-hosted.\"}" \
             ${{ secrets.DISCORD_WEBHOOK_URL }}
