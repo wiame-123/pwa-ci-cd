@@ -78,7 +78,7 @@ jobs:
             "Content-Type" = "application/json"
           }
           $Body = @{
-            content = "✅ Déploiement réussi ! Conteneur Docker lancé sur self-hosted."
+            content = "✅ Déploiement réussi Conteneur Docker lancé sur self-hosted."
           } | ConvertTo-Json
           Invoke-WebRequest -Uri $env:DISCORD_WEBHOOK_URL -Method Post -Headers $Headers -Body $Body
         env:
