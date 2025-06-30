@@ -71,9 +71,11 @@ jobs:
         shell: powershell
         run: docker run -d -p 3000:3000 --name pwa-app wiamee3/pwa-app:latest
 
+        
       - name: Notify Discord
         shell: powershell
         run: |
-          $webhook = $env:DISCORD_WEBHOOK_URL
-          $body = @{ content = "✅ Déploiement réussi depuis GitHub Actions." } | ConvertTo-Json -Compress
-          Invoke-RestMethod -Uri $webhook -Method Post -ContentType 'application/json' -Body $body
+          $webhook = "https://discord.com/api/webhooks/1389085531274739863/kM1L_Om7bRDWJOS6YTxTR7F2sADjNMO4rxUW7B9V9hfhZpOLRBmkZkWWj4KztGHm1sOB"
+          $json = '{ "content": "✅ Déploiement réussi depuis GitHub Actions 🎉" }'
+          Invoke-RestMethod -Uri $webhook -Method POST -ContentType 'application/json' -Body $json
+      
