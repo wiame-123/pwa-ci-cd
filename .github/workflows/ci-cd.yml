@@ -71,8 +71,11 @@ jobs:
         shell: powershell
         run: docker run -d -p 3000:3000 --name pwa-app wiamee3/pwa-app:latest
 
-    - name: Notify Discord
+      - name: Notify Discord
         shell: pwsh
         run: |
-          $body = @{ content = "✅ Déploiement réussi sur runner self-hosted 🎉." } | ConvertTo-Json
+          $body = @{
+            content = "✅ Déploiement réussi ! Conteneur Docker lancé sur self-hosted."
+          } | ConvertTo-Json
+          
           Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_URL -Method Post -ContentType 'application/json' -Body $body
