@@ -74,9 +74,6 @@ jobs:
       - name: Notify Discord
         shell: powershell
         run: |
-          $webhook = "https://discord.com/api/webhooks/1389085531274739863/kM1L_Om7bRDWJOS6YTxTR7F2sADjNMO4rxUW7B9V9hfhZpOLRBmkZkWWj4KztGHm1sOB"
-          $body = @{
-            content = "✅ Test webhook avec URL en dur"
-          } | ConvertTo-Json
+          $webhook = $env:DISCORD_WEBHOOK_URL
+          $body = @{ content = "✅ Déploiement réussi depuis GitHub Actions." } | ConvertTo-Json -Compress
           Invoke-RestMethod -Uri $webhook -Method Post -ContentType 'application/json' -Body $body
-      
