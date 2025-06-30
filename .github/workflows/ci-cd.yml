@@ -72,10 +72,22 @@ jobs:
         run: docker run -d -p 3000:3000 --name pwa-app wiamee3/pwa-app:latest
 
         
-      - name: Notify Discord
+      - name: Notify by Email
         shell: powershell
         run: |
-          $webhook = "https://discord.com/api/webhooks/1389085531274739863/kM1L_Om7bRDWJOS6YTxTR7F2sADjNMO4rxUW7B9V9hfhZpOLRBmkZkWWj4KztGHm1sOB"
-          $json = '{ "content": "✅ Déploiement réussi depuis GitHub Actions 🎉" }'
-          Invoke-RestMethod -Uri $webhook -Method POST -ContentType 'application/json' -Body $json
+          $smtpServer = "smtp.gmail.com"
+          $smtpPort = 587
+          $smtpUser = "${{ secrets.GMAIL_USERNAME }}"
+          $smtpPass = "${{ secrets.GMAIL_APP_PASSWORD }}"
+          $from = $smtpUser
+          $to = "${{ secrets.EMAIL_TO }}"
+          $subject = "✅ Déploiement réussi"
+          $body = "Le déploiement de l'application PWA a été effectué avec succès via GitHub Actions 🎉"
+      
+          $smtp = New-Object System.Net.Mail.SmtpClient($smtpServer, $smtpPort)
+          $smtp.EnableSsl = $true
+          $smtp.Credentials = New-Object System.Net.NetworkCredential($smtpUser, $smtpPass)
+      
+          $msg = New-Object System.Net.Mail.MailMessage($from, $to, $subject, $body)
+          $smtp.Send($msg)
       
