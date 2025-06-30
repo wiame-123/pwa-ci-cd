@@ -13,8 +13,8 @@ RUN npm install
 # Copier tout le reste
 COPY . .
 
-# Exposer le port (serve sert sur 5000 par défaut)
-EXPOSE 5000
+# Exposer le port 
+EXPOSE 3000
 
 # Commande pour lancer l'application
-CMD ["npx", "serve", "."]
+CMD ["npx", "serve", ".","-l","3000"]
