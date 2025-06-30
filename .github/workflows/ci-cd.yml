@@ -73,13 +73,8 @@ jobs:
 
       - name: Notify Discord
         shell: powershell
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          $headers = @{
-            "Content-Type" = "application/json"
-          }
-          $body = @{
-            content = "✅ Déploiement réussi ! Conteneur Docker lancé sur self-hosted."
-          } | ConvertTo-Json -Compress
+          $headers = @{ "Content-Type" = "application/json" }
+          $body = @{ content = "✅ Déploiement réussi ! Conteneur Docker lancé sur self-hosted." } | ConvertTo-Json -Compress
           Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_URL -Method Post -Headers $headers -Body $body
+      
